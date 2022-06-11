@@ -1,14 +1,20 @@
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
 .grid-container{
     background-color: white;
     display: flex;
     flex-wrap: wrap;
-    box-sizing: border-box;
-    width: 500px;
-    height: 500px;
+    border: 2px solid black;
+    width: 600px;
+    height: 600px;
 }
 
 .grid{
     box-sizing: border-box;
-    border: 2px solid black;
     flex: 0 0 auto;
+    border: 1px solid gray;
 }
