@@ -1,7 +1,15 @@
 body{
-    margin: 0;
+    margin: 0px 60px;
     display: flex;
-    justify-content: center;
+    min-height: 100vh;
+    gap: 200px;
+}
+
+.menu-bar{
+    display: flex;
+    flex-direction: column;
+    margin-top: 90px;
+    gap: 20px;
 }
 
 .grid-container{
@@ -9,6 +17,7 @@ body{
     display: flex;
     flex-wrap: wrap;
     border: 2px solid black;
+    margin-top: auto;
     width: 600px;
     height: 600px;
 }
@@ -18,3 +27,4 @@ body{
     flex: 0 0 auto;
     border: 1px solid gray;
 }
+
