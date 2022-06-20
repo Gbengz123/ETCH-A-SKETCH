@@ -1,10 +1,12 @@
 const gridContainer = document.querySelector('.grid-container')
 let gridSize = 16
 const GRID_CONTAINER_SIZE = 600 //Size of grid conatainer 600x600
-const eraser = document.querySelector(`button[id="eraser"]`)
+const buttons = document.querySelectorAll('button')
+const eraserButton = document.querySelector(`button[id="eraser"]`)
 const clearButton = document.querySelector(`button[id="clear"]`)
 const gridSizeButton = document.querySelector(`button[id="grid-size"]`)
 const rainbowButton = document.querySelector(`button[id="rainbow"]`)
+const blackButton = document.querySelector(`button[id="black"]`)
 let gridWidth;
 let gridHeight;
 let grids;
@@ -15,7 +17,7 @@ let clickCounter = 0
 createGrid()
 
 let draw = (e) => e.target.style.backgroundColor = 'black' //draws back color
-let erase = (e) => e.target.style.backgroundColor = "white" // erases and drwas white color
+let erase = (e) => e.target.style.backgroundColor = "rgba(209, 206, 206, 0.267)" // erases and drwas white color
 let clear = () => grids.forEach((grid) => grid.style.backgroundColor = "white")
 
 gridContainer.addEventListener('mouseover', function (){
@@ -28,10 +30,16 @@ gridContainer.addEventListener('mouseover', function (){
 
 gridContainer.ondragstart = () => {return false};
 
-eraser.addEventListener('click', e => buttonAction("erase", erase))
+blackButton.addEventListener('click', e => buttonAction("draw", draw))
+eraserButton.addEventListener('click', e => buttonAction("erase", erase))
 clearButton.addEventListener('click', clear)
 gridSizeButton.addEventListener('click', changeGsize)
 rainbowButton.addEventListener('click', e => buttonAction("rainbow", rainbow))
+
+buttons.forEach(function (button) {
+    button.addEventListener('click', (e) => e.target.style.cssText = "transform: scale(0.85);")
+    button.addEventListener('transitionend', (e) => e.target.style.removeProperty('transform'))
+    })
 
 function createGrid() {
     for (let i = 0; i < gridSize**2; i++){
@@ -47,29 +55,19 @@ function createGrid() {
     grids = document.querySelectorAll('.grid')
 
     grids.forEach(function (grid) {grid.style.cssText = `width: ${gridWidth}px;
-        height: ${gridHeight}px;`})
+        height: ${gridHeight}px;`
+        })
 }
 
-function buttonAction(option, optionsFunc) {
-    clickCounter++
-    let tempCallback = (e) => optionsFunc(e);
-    console.log(optionsFunc)
-    if (clickCounter % 2 !== 0) {
-        grids.forEach((grid) => grid.addEventListener('click', tempCallback))// this is adding the event
+function buttonAction(option, action) {
 
-        actionStatus.textContent = option
+    actionStatus.textContent = option
 
-        gridContainer.addEventListener('mousedown', Action)
-        gridContainer.addEventListener('mouseup', stopAction)
-    }
-    else {
-        grids.forEach((grid) => grid.removeEventListener('click', tempCallback)) //this is not removing the event
+    let tempCallback = e => action(e)
+    grids.forEach((grid) => grid.addEventListener('click', tempCallback))
 
-        gridContainer.removeEventListener('mousedown', Action)
-        gridContainer.removeEventListener('mouseup', stopAction)
-
-        actionStatus.textContent = "draw"
-    }
+    gridContainer.addEventListener('mousedown', Action)
+    gridContainer.addEventListener('mouseup', stopAction)
 }
 
 function changeGsize() {
